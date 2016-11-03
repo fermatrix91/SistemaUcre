@@ -11,6 +11,7 @@ using WebMatrix.WebData;
 using SistemaUcre.Filters;
 using SistemaUcre.Models;
 using SistemaUcre.Models.DAL;
+using System.Net.Mail;
 
 namespace SistemaUcre.Controllers
 {
@@ -340,6 +341,145 @@ namespace SistemaUcre.Controllers
 
             ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             return PartialView("_RemoveExternalLoginsPartial", externalLogins);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
+
+        ///Recuperar Contraseña
+        ///
+        [AllowAnonymous]
+        public ActionResult RecuperaPassword()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult RecuperaPassword(ResetPasswordModel model)
+        {
+            string emailAddress = model.UserName;
+            if (!string.IsNullOrEmpty(emailAddress))
+            {
+                try
+                {
+                    string confirmationToken = WebSecurity.GeneratePasswordResetToken(model.UserName);
+
+                    SendResetPwdEmail(emailAddress, confirmationToken);
+
+                    return RedirectToAction("ResetPwStepTwo");
+                }
+                catch (Exception)
+                {
+                    return RedirectToAction("InvalidUserName");
+                }
+            }
+
+            return RedirectToAction("InvalidUserName");
+        }
+
+        private void SendResetPwdEmail(string username, string confirmationToken)
+        {
+            var message = new MailMessage();
+            var client = new SmtpClient();
+
+            string verifyUrl = Request.Url.GetLeftPart(UriPartial.Authority) + Url.Content("~") + "/Account/ResetPasswordConfirmation?Id=" + confirmationToken;
+            client.UseDefaultCredentials = false;
+
+            message = new MailMessage("josue@montes.cc", username) //username as to email address
+            {
+                Subject = "Recuperación de Contraseña - UCRE"
+            };
+
+            string nombreUsuario = "";
+
+            if (User.IsInRole("Admin"))
+            {
+                nombreUsuario = modeloUcre.Administrador.Where(x => x.UserName == User.Identity.Name).Select(y=>y.Nombre).FirstOrDefault();
+            }
+
+            if (User.IsInRole("Estudiante"))
+            {
+                nombreUsuario = modeloUcre.Estudiante.Where(x => x.UserName == User.Identity.Name).Select(y => y.Nombre).FirstOrDefault();
+            }
+            
+            string Body = "<b>Estimado(a)</b>" + " " + "<b>"
+                +
+                nombreUsuario
+
+                + ",<br></b>" + "Para recuperar su contraseña, por favor acceda al siguiente enlace.<br><br>" + verifyUrl;
+            AlternateView htmlView = AlternateView.CreateAlternateViewFromString(Body, null, "text/html");
+
+            message.AlternateViews.Add(htmlView);
+            SmtpClient smtp = new SmtpClient();
+            smtp.DeliveryMethod = SmtpDeliveryMethod.PickupDirectoryFromIis;
+            message.IsBodyHtml = true;
+
+            client.Credentials = new System.Net.NetworkCredential("josue@montes.cc", "queteimporta");
+
+            client.EnableSsl = true;
+
+            client.Host = "smtp.gmail.com";
+
+            client.Port = 587;
+            client.Send(message);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult ResetPasswordConfirmation(ResetPasswordConfirmModel model)
+        {
+            if (WebSecurity.ResetPassword(model.Token, model.NewPassword))
+            {
+                return RedirectToAction("PasswordResetSuccess");
+            }
+            return RedirectToAction("PasswordResetFailure");
+        }
+
+        [AllowAnonymous]
+        public ActionResult ResetPasswordConfirmation(string Id)
+        {
+            ResetPasswordConfirmModel model = new ResetPasswordConfirmModel() { Token = Id };
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        public ActionResult InvalidUserName()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult ResetPwStepTwo()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult PasswordResetFailure()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult PasswordResetSuccess()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult ConfirmationSuccess()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult ConfirmationFailure()
+        {
+            return View();
         }
 
         #region Aplicaciones auxiliares

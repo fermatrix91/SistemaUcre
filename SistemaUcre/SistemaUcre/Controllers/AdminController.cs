@@ -17,11 +17,18 @@ namespace SistemaUcre.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            if (User.IsInRole("Estudiante"))
+            if (User.IsInRole("Admin"))
             {
-                Estudiante estudianteActual = modeloUcre.Estudiante.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-                return View(estudianteActual);
+                Administrador adminActual = modeloUcre.Administrador.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+                ViewBag.NombreUsuario = adminActual.Nombre;
+                return View(adminActual);
             }
+            WebSecurity.Logout();
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult CerrarSesion()
+        {
             WebSecurity.Logout();
             return RedirectToAction("Index", "Home");
         }

@@ -22,6 +22,7 @@
       <End Role="Estudiante" EntitySet="Estudiante" />
       <End Role="DetalleAsignatura" EntitySet="DetalleAsignatura" />
     </AssociationSet>
+    <EntitySet Name="Administrador" EntityType="UcreModel.Administrador" />
   </EntityContainer>
   <EntityType Name="Asignatura">
     <Key>
@@ -125,4 +126,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="Administrador">
+    <Key>
+      <PropertyRef Name="IdAdministrador" />
+    </Key>
+    <Property Name="IdAdministrador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Correo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+  </EntityType>
 </Schema>

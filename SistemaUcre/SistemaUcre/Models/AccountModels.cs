@@ -98,4 +98,30 @@ namespace SistemaUcre.Models
         public string ProviderDisplayName { get; set; }
         public string ProviderUserId { get; set; }
     }
+
+    ///Para Recuperar Contraseña
+    ///
+    public class ResetPasswordModel
+    {
+        [Required]
+        [Display(Name = "User name")]
+        public string UserName { get; set; }
+
+    }
+
+    public class ResetPasswordConfirmModel
+    {
+        public string Token { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "La contraseña debe tener al menos {2} caracteres.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "New password")]
+        public string NewPassword { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm new password")]
+        [Compare("NewPassword", ErrorMessage = "Los campos de las contraseñas no concuerdan.")]
+        public string ConfirmPassword { get; set; }
+    }
 }

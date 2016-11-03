@@ -30,5 +30,6 @@ namespace SistemaUcre.Models.DAL
         public DbSet<Estudiante> Estudiante { get; set; }
         public DbSet<Modulo> Modulo { get; set; }
         public DbSet<Profesor> Profesor { get; set; }
+        public DbSet<Administrador> Administrador { get; set; }
     }
 }

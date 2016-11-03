@@ -1,4 +1,4 @@
-﻿// La generación de código T4 está habilitada para el modelo 'c:\users\fernando\documents\visual studio 2013\Projects\SistemaUcre\SistemaUcre\Models\DAL\ModelUcre.edmx'. 
+﻿// La generación de código T4 está habilitada para el modelo 'C:\Matrix\SistemaUcre\SistemaUcre\SistemaUcre\Models\DAL\ModelUcre.edmx'. 
 // Para habilitar la generación de código heredada, cambie el valor de la propiedad del diseñador 'Estrategia de generación de código'
 // por 'ObjectContext heredado'. Esta propiedad está disponible en la ventana Propiedades cuando se abre
 // el modelo en el diseñador.

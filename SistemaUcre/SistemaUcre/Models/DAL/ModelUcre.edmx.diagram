@@ -14,6 +14,7 @@
         <AssociationConnector Association="UcreModel.FK_Asignatura_Profesor" />
         <AssociationConnector Association="UcreModel.FK_DetalleAsignatura_Asignatura" />
         <AssociationConnector Association="UcreModel.FK_DetalleAsignatura_Estudiante" />
+        <EntityTypeShape EntityType="UcreModel.Administrador" Width="1.5" PointX="5.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
