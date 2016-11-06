@@ -1,0 +1,180 @@
+﻿@model List<SistemaUcre.Models.DAL.Modulo>
+
+@{
+    ViewBag.Title = "Modulos";
+    Layout = "~/Views/Shared/_LayoutUcre.cshtml";
+}
+
+<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+    <p class="letraTitulos">Asignaturas de: @ViewBag.NombreAsignatura</p>
+    <p id="idDeAsignaturaActualP" style="display: none;">@ViewBag.IdDeAsignatura</p>
+</div>
+
+<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+    @Html.ActionLink("Regresar", "Asignaturas", "Admin", new { idCursoActual = ViewBag.IdCursoAsignatura }, null)
+</div>
+
+<table id="tablaModulos" class="display table table-striped table-responsive" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>
+                Nombre del Módulo
+            </th>
+            <th></th>
+            <th></th>
+            <th><button id="agregaAsignatura" style="float: right;" class="btn btn-info" data-toggle="modal" data-target="#modalModulo">Nuevo Modulo</button></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>
+                Nombre
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tfoot>
+    <tbody style="white-space:nowrap !important;">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td style="white-space:nowrap !important; width: 1%;">
+                    <button class="editarModulo btn btn-primary" data-idasignaturaactual="@item.IdAsignatura" data-idmoduloactual="@item.IdModulo">Editar</button>
+                </td>
+                <td style="white-space:nowrap !important; width: 1%;">
+                    <form style="white-space:nowrap !important; width: auto;" action="Modulos" method="post">
+                        <input type="hidden" name="idModuloActual" value="@item.IdModulo" />
+                        <button class="btn btn-default">Recursos</button>
+                    </form>
+                </td>
+                <td style="white-space:nowrap !important; width: 1%;">
+                    <form style="white-space:nowrap !important;" action="HabilitarModulo" method="post">
+                        <input type="hidden" name="idModuloActual" value="@item.IdModulo" />
+                        <input type="hidden" name="idAsignaturaGo" value="@item.IdAsignatura" />
+                        @if (item.Estado == true)
+                        {
+                            <input type="hidden" name="estado" value="false" />
+                            <button class="btn btn-warning">Deshabilitar</button>
+                        }
+                        else
+                        {
+                            <input type="hidden" name="estado" value="true" />
+                            <button class="btn btn-success">Habilitar</button>
+                        }
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<!-- Modal -->
+<div id="modalModulo" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="idOperacion"></h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                    <p class="letraContenido" style="font-weight: bold !important;">Nombre del Módulo:</p>
+                </div>
+                <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                    <form id="FormGuardarModulo" action="GuardarModulo" method="post">
+                        <input style="max-width: 100%;" placeholder="Nombre del Módulo" class="letraContenido form-control" type="text" id="nombreModulo" name="nombreModulo" />
+                        <input type="hidden" id="idDeModuloActual" name="idDeModuloActual" />
+                        <input type="hidden" id="idDeAsignaturaActual" name="idDeAsignaturaActual" />
+                        <input type="hidden" name="esEdicion" id="esEdicion" />
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button id="guardaModulo" type="button" class="btn btn-success" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#cuadroCursos').addClass("fondoNaranga");
+
+        $('#agregaAsignatura').click(function () {
+            $('#idOperacion').text("Nuevo Módulo");
+            $('#nombreModulo').val("");
+            $('#idDeModuloActual').val(0);
+            $('#idDeAsignaturaActual').val($('#idDeAsignaturaActualP').text())
+            $('#esEdicion').val(false);
+        });
+
+        $('#guardaModulo').click(function () {
+            $('#FormGuardarModulo').submit();
+        });
+
+        $('.editarModulo').click(function () {
+            $('#idOperacion').text("Editar Módulo");
+            var idModulo = $(this).attr("data-idmoduloActual");
+            var idAsignatura = $(this).attr("data-idasignaturaactual");
+
+            $.ajax({
+                type: "POST",
+                async: true,
+                cache: false,
+                url: '/Admin/DetalleModulo',
+                context: document.body,
+                data: { idModuloActual: idModulo, idAsignaturaActual: idAsignatura },
+                beforeSend: function (objeto) {
+                    //ventanaBloquear2();
+                },
+                complete: function () {
+                    //$.unblockUI();
+                },
+                success: function (Modulo) {
+                    $('#modalModulo').modal("show");
+                    $('#nombreModulo').val(Modulo.Nombre);
+                    $('#idDeModuloActual').val(Modulo.IdModulo);
+                    $('#idDeAsignaturaActual').val(idAsignatura);
+                    $('#esEdicion').val(true);
+                    //alert(curso.IdCurso + " - " + curso.Nombre)
+                }
+            });
+        });
+
+
+        $('#tablaModulos').DataTable({
+            //"order": [[2, "asc"]],
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros encontrados: 0",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                }
+            }
+        });
+    });
+</script>

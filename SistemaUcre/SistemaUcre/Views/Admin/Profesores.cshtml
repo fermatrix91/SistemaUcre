@@ -1,0 +1,176 @@
+﻿@model List<SistemaUcre.Models.DAL.Profesor>
+
+@{
+    ViewBag.Title = "Profesores";
+    Layout = "~/Views/Shared/_LayoutUcre.cshtml";
+}
+
+<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+    <p class="letraTitulos">Lista de Profesores</p>
+</div>
+
+<table id="tablaProfesores" class="display table table-striped table-responsive" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>
+                Nombre del Profesor
+            </th>
+            <th>Correo</th>
+            <th></th>
+            <th><button id="agregaProfesor" style="float: right;" class="btn btn-info" data-toggle="modal" data-target="#modalProfesor">Nuevo Profesor</button></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>
+                Nombre
+            </th>
+            <th>Correo</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tfoot>
+    <tbody style="white-space:nowrap !important;">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td style="white-space:nowrap !important; width: 1%;">
+                    @Html.DisplayFor(modelItem => item.Correo)
+                </td>
+                <td style="white-space:nowrap !important; width: 1%;">
+                    <button class="editarProfesor btn btn-primary" data-idprofesoractual="@item.IdProfesor">Editar</button>
+                </td>
+
+                <td style="white-space:nowrap !important; width: 1%;">
+                    <form style="white-space:nowrap !important;" action="HabilitarProfesor" method="post">
+                        <input type="hidden" name="idProfesorActual" value="@item.IdProfesor" />
+                        @if (item.Estado == true)
+                        {
+                            <input type="hidden" name="estado" value="false" />
+                            <button class="btn btn-warning">Deshabilitar</button>
+                        }
+                        else
+                        {
+                            <input type="hidden" name="estado" value="true" />
+                            <button class="btn btn-success">Habilitar</button>
+                        }
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<!-- Modal -->
+<div id="modalProfesor" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="idOperacion"></h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                    <p class="letraContenido" style="font-weight: bold !important;">Nombre del Profesor:</p>
+                </div>
+                <form id="FormGuardarProfesor" action="GuardarProfesor" method="post">
+                    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+
+                        <input style="max-width: 100%;" placeholder="Nombre del Profesor" class="letraContenido form-control" type="text" id="nombreProfesor" name="nombreProfesor" />
+                        <input type="hidden" id="idDeProfesorActual" name="idDeProfesorActual" />
+                        <input type="hidden" name="esEdicion" id="esEdicion" />
+
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                        <p class="letraContenido" style="font-weight: bold !important;">Correo:</p>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                        <input style="max-width: 100%;" placeholder="Correo electrónico" class="letraContenido form-control" type="text" id="correoProfesor" name="correoProfesor" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="guardaProfesor" type="button" class="btn btn-success" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#cuadroProfesores').addClass("fondoNaranga");
+
+        $('#agregaProfesor').click(function () {
+            $('#idOperacion').text("Nuevo Profesor");
+            $('#nombreProfesor').val("");
+            $('#correoProfesor').val("");
+            $('#idDeProfesorActual').val(0);
+            $('#esEdicion').val(false);
+        });
+
+        $('#guardaProfesor').click(function () {
+            $('#FormGuardarProfesor').submit();
+        });
+
+        $('.editarProfesor').click(function () {
+            $('#idOperacion').text("Editar Profesor");
+            var idProfesor = $(this).attr("data-idProfesorActual");
+
+            $.ajax({
+                type: "POST",
+                async: true,
+                cache: false,
+                url: '/Admin/DetalleProfesor',
+                context: document.body,
+                data: { idProfesorActual: idProfesor },
+                beforeSend: function (objeto) {
+                    //ventanaBloquear2();
+                },
+                complete: function () {
+                    //$.unblockUI();
+                },
+                success: function (Profesor) {
+                    $('#modalProfesor').modal("show");
+                    $('#nombreProfesor').val(Profesor.Nombre);
+                    $('#correoProfesor').val(Profesor.Correo);
+                    $('#idDeProfesorActual').val(Profesor.IdProfesor);
+                    $('#esEdicion').val(true);
+                    //alert(curso.IdCurso + " - " + curso.Nombre)
+                }
+            });
+        });
+
+        $('#tablaProfesores').DataTable({
+            //"order": [[2, "asc"]],
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros encontrados: 0",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                }
+            }
+        });
+    });
+</script>

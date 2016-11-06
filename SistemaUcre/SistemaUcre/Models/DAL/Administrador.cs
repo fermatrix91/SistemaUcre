@@ -16,7 +16,7 @@ namespace SistemaUcre.Models.DAL
     {
         public int IdAdministrador { get; set; }
         public string Nombre { get; set; }
-        public string UserName { get; set; }
+        public string Username { get; set; }
         public string Correo { get; set; }
         public bool Estado { get; set; }
     }

@@ -17,16 +17,18 @@ namespace SistemaUcre.Models.DAL
         public Asignatura()
         {
             this.DetalleAsignatura = new HashSet<DetalleAsignatura>();
+            this.Modulo = new HashSet<Modulo>();
         }
     
         public int IdAsignatura { get; set; }
-        public int IdModulo { get; set; }
-        public string Nombre { get; set; }
         public int IdProfesor { get; set; }
+        public int IdCurso { get; set; }
+        public string Nombre { get; set; }
         public bool Estado { get; set; }
     
-        public virtual Modulo Modulo { get; set; }
+        public virtual Curso Curso { get; set; }
         public virtual Profesor Profesor { get; set; }
         public virtual ICollection<DetalleAsignatura> DetalleAsignatura { get; set; }
+        public virtual ICollection<Modulo> Modulo { get; set; }
     }
 }

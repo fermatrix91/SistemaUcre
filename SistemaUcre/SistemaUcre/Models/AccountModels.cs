@@ -58,7 +58,7 @@ namespace SistemaUcre.Models
     public class LoginModel
     {
         [Required]
-        [Display(Name = "Nombre de usuario")]
+        [Display(Name = "Usuario")]
         public string UserName { get; set; }
 
         [Required]

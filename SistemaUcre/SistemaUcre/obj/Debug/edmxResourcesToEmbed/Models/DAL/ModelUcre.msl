@@ -1,14 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="UcreModelStoreContainer" CdmEntityContainer="UcreEntities">
+    <EntitySetMapping Name="Administrador">
+      <EntityTypeMapping TypeName="UcreModel.Administrador">
+        <MappingFragment StoreEntitySet="Administrador">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Correo" ColumnName="Correo" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IdAdministrador" ColumnName="IdAdministrador" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Asignatura">
       <EntityTypeMapping TypeName="UcreModel.Asignatura">
         <MappingFragment StoreEntitySet="Asignatura">
           <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="IdProfesor" ColumnName="IdProfesor" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-          <ScalarProperty Name="IdModulo" ColumnName="IdModulo" />
+          <ScalarProperty Name="IdCurso" ColumnName="IdCurso" />
+          <ScalarProperty Name="IdProfesor" ColumnName="IdProfesor" />
           <ScalarProperty Name="IdAsignatura" ColumnName="IdAsignatura" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Curso">
+      <EntityTypeMapping TypeName="UcreModel.Curso">
+        <MappingFragment StoreEntitySet="Curso">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IdCurso" ColumnName="IdCurso" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -16,8 +36,8 @@
       <EntityTypeMapping TypeName="UcreModel.DetalleAsignatura">
         <MappingFragment StoreEntitySet="DetalleAsignatura">
           <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="IdAsignatura" ColumnName="IdAsignatura" />
           <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+          <ScalarProperty Name="IdAsignatura" ColumnName="IdAsignatura" />
           <ScalarProperty Name="IdDetalleAsignatura" ColumnName="IdDetalleAsignatura" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -27,7 +47,7 @@
         <MappingFragment StoreEntitySet="Estudiante">
           <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="Correo" ColumnName="Correo" />
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
         </MappingFragment>
@@ -38,6 +58,7 @@
         <MappingFragment StoreEntitySet="Modulo">
           <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IdAsignatura" ColumnName="IdAsignatura" />
           <ScalarProperty Name="IdModulo" ColumnName="IdModulo" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -52,14 +73,24 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Administrador">
-      <EntityTypeMapping TypeName="UcreModel.Administrador">
-        <MappingFragment StoreEntitySet="Administrador">
+    <EntitySetMapping Name="Recurso">
+      <EntityTypeMapping TypeName="UcreModel.Recurso">
+        <MappingFragment StoreEntitySet="Recurso">
           <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="Correo" ColumnName="Correo" />
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Urlarchivo" ColumnName="Urlarchivo" />
+          <ScalarProperty Name="Urlimagen" ColumnName="Urlimagen" />
+          <ScalarProperty Name="IdModulo" ColumnName="IdModulo" />
+          <ScalarProperty Name="IdTipoRecurso" ColumnName="IdTipoRecurso" />
+          <ScalarProperty Name="IdRecurso" ColumnName="IdRecurso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoRecurso">
+      <EntityTypeMapping TypeName="UcreModel.TipoRecurso">
+        <MappingFragment StoreEntitySet="TipoRecurso">
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-          <ScalarProperty Name="IdAdministrador" ColumnName="IdAdministrador" />
+          <ScalarProperty Name="IdTipoRecurso" ColumnName="IdTipoRecurso" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

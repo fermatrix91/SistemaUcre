@@ -11,7 +11,7 @@
           </Key>
           <Property Name="IdAdministrador" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Correo" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Estado" Type="bit" Nullable="false" />
         </EntityType>
@@ -19,10 +19,18 @@
           <Key>
             <PropertyRef Name="IdAsignatura" />
           </Key>
-          <Property Name="IdAsignatura" Type="int" Nullable="false" />
-          <Property Name="IdModulo" Type="int" Nullable="false" />
-          <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IdAsignatura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdProfesor" Type="int" Nullable="false" />
+          <Property Name="IdCurso" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Curso">
+          <Key>
+            <PropertyRef Name="IdCurso" />
+          </Key>
+          <Property Name="IdCurso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Estado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DetalleAsignatura">
@@ -30,8 +38,8 @@
             <PropertyRef Name="IdDetalleAsignatura" />
           </Key>
           <Property Name="IdDetalleAsignatura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IdEstudiante" Type="int" Nullable="false" />
           <Property Name="IdAsignatura" Type="int" Nullable="false" />
+          <Property Name="IdEstudiante" Type="int" Nullable="false" />
           <Property Name="Estado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Estudiante">
@@ -40,36 +48,56 @@
           </Key>
           <Property Name="IdEstudiante" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Correo" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Estado" Type="bit" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Modulo">
           <Key>
             <PropertyRef Name="IdModulo" />
           </Key>
           <Property Name="IdModulo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdAsignatura" Type="int" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Estado" Type="bit" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Profesor">
           <Key>
             <PropertyRef Name="IdProfesor" />
           </Key>
-          <Property Name="IdProfesor" Type="int" Nullable="false" />
+          <Property Name="IdProfesor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Correo" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Estado" Type="bit" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Asignatura_Modulo">
-          <End Role="Modulo" Type="Self.Modulo" Multiplicity="1" />
+        <EntityType Name="Recurso">
+          <Key>
+            <PropertyRef Name="IdRecurso" />
+          </Key>
+          <Property Name="IdRecurso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdTipoRecurso" Type="int" Nullable="false" />
+          <Property Name="IdModulo" Type="int" Nullable="false" />
+          <Property Name="Urlimagen" Type="nvarchar(max)" />
+          <Property Name="Urlarchivo" Type="nvarchar(max)" />
+          <Property Name="Descripcion" Type="nvarchar(max)" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoRecurso">
+          <Key>
+            <PropertyRef Name="IdTipoRecurso" />
+          </Key>
+          <Property Name="IdTipoRecurso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Asignatura_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
           <End Role="Asignatura" Type="Self.Asignatura" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Modulo">
-              <PropertyRef Name="IdModulo" />
+            <Principal Role="Curso">
+              <PropertyRef Name="IdCurso" />
             </Principal>
             <Dependent Role="Asignatura">
-              <PropertyRef Name="IdModulo" />
+              <PropertyRef Name="IdCurso" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -109,15 +137,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Modulo_Asignatura">
+          <End Role="Asignatura" Type="Self.Asignatura" Multiplicity="1" />
+          <End Role="Modulo" Type="Self.Modulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asignatura">
+              <PropertyRef Name="IdAsignatura" />
+            </Principal>
+            <Dependent Role="Modulo">
+              <PropertyRef Name="IdAsignatura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recurso_Modulo">
+          <End Role="Modulo" Type="Self.Modulo" Multiplicity="1" />
+          <End Role="Recurso" Type="Self.Recurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modulo">
+              <PropertyRef Name="IdModulo" />
+            </Principal>
+            <Dependent Role="Recurso">
+              <PropertyRef Name="IdModulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recurso_TipoRecurso">
+          <End Role="TipoRecurso" Type="Self.TipoRecurso" Multiplicity="1" />
+          <End Role="Recurso" Type="Self.Recurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoRecurso">
+              <PropertyRef Name="IdTipoRecurso" />
+            </Principal>
+            <Dependent Role="Recurso">
+              <PropertyRef Name="IdTipoRecurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="UcreModelStoreContainer">
           <EntitySet Name="Administrador" EntityType="Self.Administrador" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Asignatura" EntityType="Self.Asignatura" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Curso" EntityType="Self.Curso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleAsignatura" EntityType="Self.DetalleAsignatura" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estudiante" EntityType="Self.Estudiante" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Modulo" EntityType="Self.Modulo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Profesor" EntityType="Self.Profesor" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Asignatura_Modulo" Association="Self.FK_Asignatura_Modulo">
-            <End Role="Modulo" EntitySet="Modulo" />
+          <EntitySet Name="Recurso" EntityType="Self.Recurso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoRecurso" EntityType="Self.TipoRecurso" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Asignatura_Curso" Association="Self.FK_Asignatura_Curso">
+            <End Role="Curso" EntitySet="Curso" />
             <End Role="Asignatura" EntitySet="Asignatura" />
           </AssociationSet>
           <AssociationSet Name="FK_Asignatura_Profesor" Association="Self.FK_Asignatura_Profesor">
@@ -132,19 +199,35 @@
             <End Role="Estudiante" EntitySet="Estudiante" />
             <End Role="DetalleAsignatura" EntitySet="DetalleAsignatura" />
           </AssociationSet>
+          <AssociationSet Name="FK_Modulo_Asignatura" Association="Self.FK_Modulo_Asignatura">
+            <End Role="Asignatura" EntitySet="Asignatura" />
+            <End Role="Modulo" EntitySet="Modulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recurso_Modulo" Association="Self.FK_Recurso_Modulo">
+            <End Role="Modulo" EntitySet="Modulo" />
+            <End Role="Recurso" EntitySet="Recurso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recurso_TipoRecurso" Association="Self.FK_Recurso_TipoRecurso">
+            <End Role="TipoRecurso" EntitySet="TipoRecurso" />
+            <End Role="Recurso" EntitySet="Recurso" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="UcreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="UcreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Administrador" EntityType="UcreModel.Administrador" />
           <EntitySet Name="Asignatura" EntityType="UcreModel.Asignatura" />
+          <EntitySet Name="Curso" EntityType="UcreModel.Curso" />
           <EntitySet Name="DetalleAsignatura" EntityType="UcreModel.DetalleAsignatura" />
           <EntitySet Name="Estudiante" EntityType="UcreModel.Estudiante" />
           <EntitySet Name="Modulo" EntityType="UcreModel.Modulo" />
           <EntitySet Name="Profesor" EntityType="UcreModel.Profesor" />
-          <AssociationSet Name="FK_Asignatura_Modulo" Association="UcreModel.FK_Asignatura_Modulo">
-            <End Role="Modulo" EntitySet="Modulo" />
+          <EntitySet Name="Recurso" EntityType="UcreModel.Recurso" />
+          <EntitySet Name="TipoRecurso" EntityType="UcreModel.TipoRecurso" />
+          <AssociationSet Name="FK_Asignatura_Curso" Association="UcreModel.FK_Asignatura_Curso">
+            <End Role="Curso" EntitySet="Curso" />
             <End Role="Asignatura" EntitySet="Asignatura" />
           </AssociationSet>
           <AssociationSet Name="FK_Asignatura_Profesor" Association="UcreModel.FK_Asignatura_Profesor">
@@ -155,32 +238,63 @@
             <End Role="Asignatura" EntitySet="Asignatura" />
             <End Role="DetalleAsignatura" EntitySet="DetalleAsignatura" />
           </AssociationSet>
+          <AssociationSet Name="FK_Modulo_Asignatura" Association="UcreModel.FK_Modulo_Asignatura">
+            <End Role="Asignatura" EntitySet="Asignatura" />
+            <End Role="Modulo" EntitySet="Modulo" />
+          </AssociationSet>
           <AssociationSet Name="FK_DetalleAsignatura_Estudiante" Association="UcreModel.FK_DetalleAsignatura_Estudiante">
             <End Role="Estudiante" EntitySet="Estudiante" />
             <End Role="DetalleAsignatura" EntitySet="DetalleAsignatura" />
           </AssociationSet>
-          <EntitySet Name="Administrador" EntityType="UcreModel.Administrador" />
+          <AssociationSet Name="FK_Recurso_Modulo" Association="UcreModel.FK_Recurso_Modulo">
+            <End Role="Modulo" EntitySet="Modulo" />
+            <End Role="Recurso" EntitySet="Recurso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recurso_TipoRecurso" Association="UcreModel.FK_Recurso_TipoRecurso">
+            <End Role="TipoRecurso" EntitySet="TipoRecurso" />
+            <End Role="Recurso" EntitySet="Recurso" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Administrador">
+          <Key>
+            <PropertyRef Name="IdAdministrador" />
+          </Key>
+          <Property Name="IdAdministrador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Correo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+        </EntityType>
         <EntityType Name="Asignatura">
           <Key>
             <PropertyRef Name="IdAsignatura" />
           </Key>
-          <Property Name="IdAsignatura" Type="Int32" Nullable="false" />
-          <Property Name="IdModulo" Type="Int32" Nullable="false" />
-          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdAsignatura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdProfesor" Type="Int32" Nullable="false" />
+          <Property Name="IdCurso" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Modulo" Relationship="UcreModel.FK_Asignatura_Modulo" FromRole="Asignatura" ToRole="Modulo" />
+          <NavigationProperty Name="Curso" Relationship="UcreModel.FK_Asignatura_Curso" FromRole="Asignatura" ToRole="Curso" />
           <NavigationProperty Name="Profesor" Relationship="UcreModel.FK_Asignatura_Profesor" FromRole="Asignatura" ToRole="Profesor" />
           <NavigationProperty Name="DetalleAsignatura" Relationship="UcreModel.FK_DetalleAsignatura_Asignatura" FromRole="Asignatura" ToRole="DetalleAsignatura" />
+          <NavigationProperty Name="Modulo" Relationship="UcreModel.FK_Modulo_Asignatura" FromRole="Asignatura" ToRole="Modulo" />
+        </EntityType>
+        <EntityType Name="Curso">
+          <Key>
+            <PropertyRef Name="IdCurso" />
+          </Key>
+          <Property Name="IdCurso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Asignatura" Relationship="UcreModel.FK_Asignatura_Curso" FromRole="Curso" ToRole="Asignatura" />
         </EntityType>
         <EntityType Name="DetalleAsignatura">
           <Key>
             <PropertyRef Name="IdDetalleAsignatura" />
           </Key>
           <Property Name="IdDetalleAsignatura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdEstudiante" Type="Int32" Nullable="false" />
           <Property Name="IdAsignatura" Type="Int32" Nullable="false" />
+          <Property Name="IdEstudiante" Type="Int32" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Asignatura" Relationship="UcreModel.FK_DetalleAsignatura_Asignatura" FromRole="DetalleAsignatura" ToRole="Asignatura" />
           <NavigationProperty Name="Estudiante" Relationship="UcreModel.FK_DetalleAsignatura_Estudiante" FromRole="DetalleAsignatura" ToRole="Estudiante" />
@@ -191,9 +305,9 @@
           </Key>
           <Property Name="IdEstudiante" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Correo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Estado" Type="Boolean" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="DetalleAsignatura" Relationship="UcreModel.FK_DetalleAsignatura_Estudiante" FromRole="Estudiante" ToRole="DetalleAsignatura" />
         </EntityType>
         <EntityType Name="Modulo">
@@ -201,29 +315,53 @@
             <PropertyRef Name="IdModulo" />
           </Key>
           <Property Name="IdModulo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdAsignatura" Type="Int32" Nullable="false" />
           <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Estado" Type="Boolean" />
-          <NavigationProperty Name="Asignatura" Relationship="UcreModel.FK_Asignatura_Modulo" FromRole="Modulo" ToRole="Asignatura" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Asignatura" Relationship="UcreModel.FK_Modulo_Asignatura" FromRole="Modulo" ToRole="Asignatura" />
+          <NavigationProperty Name="Recurso" Relationship="UcreModel.FK_Recurso_Modulo" FromRole="Modulo" ToRole="Recurso" />
         </EntityType>
         <EntityType Name="Profesor">
           <Key>
             <PropertyRef Name="IdProfesor" />
           </Key>
-          <Property Name="IdProfesor" Type="Int32" Nullable="false" />
+          <Property Name="IdProfesor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Correo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Asignatura" Relationship="UcreModel.FK_Asignatura_Profesor" FromRole="Profesor" ToRole="Asignatura" />
         </EntityType>
-        <Association Name="FK_Asignatura_Modulo">
-          <End Type="UcreModel.Modulo" Role="Modulo" Multiplicity="1" />
+        <EntityType Name="Recurso">
+          <Key>
+            <PropertyRef Name="IdRecurso" />
+          </Key>
+          <Property Name="IdRecurso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdTipoRecurso" Type="Int32" Nullable="false" />
+          <Property Name="IdModulo" Type="Int32" Nullable="false" />
+          <Property Name="Urlimagen" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Urlarchivo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Modulo" Relationship="UcreModel.FK_Recurso_Modulo" FromRole="Recurso" ToRole="Modulo" />
+          <NavigationProperty Name="TipoRecurso" Relationship="UcreModel.FK_Recurso_TipoRecurso" FromRole="Recurso" ToRole="TipoRecurso" />
+        </EntityType>
+        <EntityType Name="TipoRecurso">
+          <Key>
+            <PropertyRef Name="IdTipoRecurso" />
+          </Key>
+          <Property Name="IdTipoRecurso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Recurso" Relationship="UcreModel.FK_Recurso_TipoRecurso" FromRole="TipoRecurso" ToRole="Recurso" />
+        </EntityType>
+        <Association Name="FK_Asignatura_Curso">
+          <End Type="UcreModel.Curso" Role="Curso" Multiplicity="1" />
           <End Type="UcreModel.Asignatura" Role="Asignatura" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Modulo">
-              <PropertyRef Name="IdModulo" />
+            <Principal Role="Curso">
+              <PropertyRef Name="IdCurso" />
             </Principal>
             <Dependent Role="Asignatura">
-              <PropertyRef Name="IdModulo" />
+              <PropertyRef Name="IdCurso" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -251,6 +389,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Modulo_Asignatura">
+          <End Type="UcreModel.Asignatura" Role="Asignatura" Multiplicity="1" />
+          <End Type="UcreModel.Modulo" Role="Modulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asignatura">
+              <PropertyRef Name="IdAsignatura" />
+            </Principal>
+            <Dependent Role="Modulo">
+              <PropertyRef Name="IdAsignatura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DetalleAsignatura_Estudiante">
           <End Type="UcreModel.Estudiante" Role="Estudiante" Multiplicity="1" />
           <End Type="UcreModel.DetalleAsignatura" Role="DetalleAsignatura" Multiplicity="*" />
@@ -263,30 +413,64 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Administrador">
-          <Key>
-            <PropertyRef Name="IdAdministrador" />
-          </Key>
-          <Property Name="IdAdministrador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Correo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Estado" Type="Boolean" Nullable="false" />
-        </EntityType>
+        <Association Name="FK_Recurso_Modulo">
+          <End Type="UcreModel.Modulo" Role="Modulo" Multiplicity="1" />
+          <End Type="UcreModel.Recurso" Role="Recurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modulo">
+              <PropertyRef Name="IdModulo" />
+            </Principal>
+            <Dependent Role="Recurso">
+              <PropertyRef Name="IdModulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recurso_TipoRecurso">
+          <End Type="UcreModel.TipoRecurso" Role="TipoRecurso" Multiplicity="1" />
+          <End Type="UcreModel.Recurso" Role="Recurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoRecurso">
+              <PropertyRef Name="IdTipoRecurso" />
+            </Principal>
+            <Dependent Role="Recurso">
+              <PropertyRef Name="IdTipoRecurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="UcreModelStoreContainer" CdmEntityContainer="UcreEntities">
+          <EntitySetMapping Name="Administrador">
+            <EntityTypeMapping TypeName="UcreModel.Administrador">
+              <MappingFragment StoreEntitySet="Administrador">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdAdministrador" ColumnName="IdAdministrador" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Asignatura">
             <EntityTypeMapping TypeName="UcreModel.Asignatura">
               <MappingFragment StoreEntitySet="Asignatura">
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="IdProfesor" ColumnName="IdProfesor" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="IdModulo" ColumnName="IdModulo" />
+                <ScalarProperty Name="IdCurso" ColumnName="IdCurso" />
+                <ScalarProperty Name="IdProfesor" ColumnName="IdProfesor" />
                 <ScalarProperty Name="IdAsignatura" ColumnName="IdAsignatura" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Curso">
+            <EntityTypeMapping TypeName="UcreModel.Curso">
+              <MappingFragment StoreEntitySet="Curso">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdCurso" ColumnName="IdCurso" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -294,8 +478,8 @@
             <EntityTypeMapping TypeName="UcreModel.DetalleAsignatura">
               <MappingFragment StoreEntitySet="DetalleAsignatura">
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="IdAsignatura" ColumnName="IdAsignatura" />
                 <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+                <ScalarProperty Name="IdAsignatura" ColumnName="IdAsignatura" />
                 <ScalarProperty Name="IdDetalleAsignatura" ColumnName="IdDetalleAsignatura" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -305,7 +489,7 @@
               <MappingFragment StoreEntitySet="Estudiante">
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Correo" ColumnName="Correo" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
               </MappingFragment>
@@ -316,6 +500,7 @@
               <MappingFragment StoreEntitySet="Modulo">
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdAsignatura" ColumnName="IdAsignatura" />
                 <ScalarProperty Name="IdModulo" ColumnName="IdModulo" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -330,14 +515,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Administrador">
-            <EntityTypeMapping TypeName="UcreModel.Administrador">
-              <MappingFragment StoreEntitySet="Administrador">
+          <EntitySetMapping Name="Recurso">
+            <EntityTypeMapping TypeName="UcreModel.Recurso">
+              <MappingFragment StoreEntitySet="Recurso">
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="Correo" ColumnName="Correo" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Urlarchivo" ColumnName="Urlarchivo" />
+                <ScalarProperty Name="Urlimagen" ColumnName="Urlimagen" />
+                <ScalarProperty Name="IdModulo" ColumnName="IdModulo" />
+                <ScalarProperty Name="IdTipoRecurso" ColumnName="IdTipoRecurso" />
+                <ScalarProperty Name="IdRecurso" ColumnName="IdRecurso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoRecurso">
+            <EntityTypeMapping TypeName="UcreModel.TipoRecurso">
+              <MappingFragment StoreEntitySet="TipoRecurso">
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="IdAdministrador" ColumnName="IdAdministrador" />
+                <ScalarProperty Name="IdTipoRecurso" ColumnName="IdTipoRecurso" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

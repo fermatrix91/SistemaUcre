@@ -1,0 +1,169 @@
+﻿@model List<SistemaUcre.Models.DAL.Curso>
+
+@{
+    ViewBag.Title = "Cursos";
+    Layout = "~/Views/Shared/_LayoutUcre.cshtml";
+}
+
+<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+    <p class="letraTitulos">Lista de Cursos</p>
+</div>
+
+<table id="tablaCursos" class="display table table-striped table-responsive" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>
+                Nombre del Curso
+            </th>
+            <th></th>
+            <th></th>
+            <th><button id="agregaCurso" style="float: right;" class="btn btn-info" data-toggle="modal" data-target="#modalCurso">Nuevo Curso</button></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>
+                Nombre
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tfoot>
+    <tbody style="white-space:nowrap !important;">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td style="white-space:nowrap !important; width: 1%;">
+                    <button class="editarCurso btn btn-primary" data-idcursoactual="@item.IdCurso">Editar</button>
+                </td>
+                <td style="white-space:nowrap !important; width: 1%;">
+                    <form style="white-space:nowrap !important; width: auto;" action="Asignaturas" method="post">
+                        <input type="hidden" name="idCursoActual" value="@item.IdCurso" />
+                        <button class="btn btn-default">Asignaturas</button>
+                    </form>
+                </td>
+                <td style="white-space:nowrap !important; width: 1%;">
+                    <form style="white-space:nowrap !important;" action="HabilitarCurso" method="post">
+                        <input type="hidden" name="idCursoActual" value="@item.IdCurso" />
+                        @if (item.Estado == true)
+                        {
+                            <input type="hidden" name="estado" value="false" />
+                            <button class="btn btn-warning">Deshabilitar</button>
+                        }
+                        else
+                        {
+                            <input type="hidden" name="estado" value="true" />
+                            <button class="btn btn-success">Habilitar</button>
+                        }
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<!-- Modal -->
+<div id="modalCurso" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="idOperacion"></h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                    <p class="letraContenido" style="font-weight: bold !important;">Nombre del Curso:</p>
+                </div>
+                <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                    <form id="FormGuardarCurso" action="GuardarCurso" method="post">
+                        <input style="max-width: 100%;" placeholder="Nombre del Curso" class="letraContenido form-control" type="text" id="nombreCurso" name="nombreCurso" />
+                        <input type="hidden" id="idDeCursoActual" name="idDeCursoActual" />
+                        <input type="hidden" name="esEdicion" id="esEdicion" />
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button id="guardaCurso" type="button" class="btn btn-success" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#cuadroCursos').addClass("fondoNaranga");
+
+        $('#agregaCurso').click(function () {
+            $('#idOperacion').text("Nuevo Curso");
+            $('#nombreCurso').val("");
+            $('#idDeCursoActual').val(0);
+            $('#esEdicion').val(false);
+        });
+
+        $('#guardaCurso').click(function () {
+            $('#FormGuardarCurso').submit();
+        });
+
+        $('.editarCurso').click(function () {
+            $('#idOperacion').text("Editar Curso");
+            var idCurso = $(this).attr("data-idCursoActual");
+
+            $.ajax({
+                type: "POST",
+                async: true,
+                cache: false,
+                url: '/Admin/DetalleCurso',
+                context: document.body,
+                data: { idCursoActual: idCurso },
+                beforeSend: function (objeto) {
+                    //ventanaBloquear2();
+                },
+                complete: function () {
+                    //$.unblockUI();
+                },
+                success: function (curso) {
+                    $('#modalCurso').modal("show");
+                    $('#nombreCurso').val(curso.Nombre);
+                    $('#idDeCursoActual').val(curso.IdCurso);
+                    $('#esEdicion').val(true);
+                    //alert(curso.IdCurso + " - " + curso.Nombre)
+                }
+            });
+        });
+
+        $('#tablaCursos').DataTable({
+            //"order": [[2, "asc"]],
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros encontrados: 0",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                }
+            }
+        });
+    });
+</script>

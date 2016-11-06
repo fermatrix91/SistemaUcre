@@ -89,7 +89,7 @@ namespace SistemaUcre.Controllers
                     Estudiante estudianteNuevo = new Estudiante();
                     estudianteNuevo.Nombre = model.NombreCompleto;
                     estudianteNuevo.Correo = model.UserName;
-                    estudianteNuevo.UserName = model.UserName;
+                    estudianteNuevo.Username = model.UserName;
                     estudianteNuevo.Estado = true;
 
                     modeloUcre.Estudiante.Add(estudianteNuevo);
@@ -398,12 +398,12 @@ namespace SistemaUcre.Controllers
 
             if (User.IsInRole("Admin"))
             {
-                nombreUsuario = modeloUcre.Administrador.Where(x => x.UserName == User.Identity.Name).Select(y=>y.Nombre).FirstOrDefault();
+                nombreUsuario = modeloUcre.Administrador.Where(x => x.Username == User.Identity.Name).Select(y=>y.Nombre).FirstOrDefault();
             }
 
             if (User.IsInRole("Estudiante"))
             {
-                nombreUsuario = modeloUcre.Estudiante.Where(x => x.UserName == User.Identity.Name).Select(y => y.Nombre).FirstOrDefault();
+                nombreUsuario = modeloUcre.Estudiante.Where(x => x.Username == User.Identity.Name).Select(y => y.Nombre).FirstOrDefault();
             }
             
             string Body = "<b>Estimado(a)</b>" + " " + "<b>"

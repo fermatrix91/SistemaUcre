@@ -21,9 +21,9 @@ namespace SistemaUcre.Models.DAL
     
         public int IdEstudiante { get; set; }
         public string Nombre { get; set; }
-        public string UserName { get; set; }
+        public string Username { get; set; }
         public string Correo { get; set; }
-        public Nullable<bool> Estado { get; set; }
+        public bool Estado { get; set; }
     
         public virtual ICollection<DetalleAsignatura> DetalleAsignatura { get; set; }
     }

@@ -25,11 +25,14 @@ namespace SistemaUcre.Models.DAL
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<Administrador> Administrador { get; set; }
         public DbSet<Asignatura> Asignatura { get; set; }
+        public DbSet<Curso> Curso { get; set; }
         public DbSet<DetalleAsignatura> DetalleAsignatura { get; set; }
         public DbSet<Estudiante> Estudiante { get; set; }
         public DbSet<Modulo> Modulo { get; set; }
         public DbSet<Profesor> Profesor { get; set; }
-        public DbSet<Administrador> Administrador { get; set; }
+        public DbSet<Recurso> Recurso { get; set; }
+        public DbSet<TipoRecurso> TipoRecurso { get; set; }
     }
 }

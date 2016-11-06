@@ -1,14 +1,56 @@
-﻿@if (Request.IsAuthenticated) {
+﻿@if (Request.IsAuthenticated)
+{
+    <ul class="nav navbar-nav pull-right panel-menu">
+        <li>
+            <div class="avatar">
+                <span class="fa fa-user" style="font-size: 40px;"></span>
+                @*<img src="img/avatar.jpg" class="img-rounded" alt="avatar" />*@
+            </div>
+        </li>
+        <li class="dropdown" style="width: auto !important;">
+            <a href="#" class="dropdown-toggle account" data-toggle="dropdown">
+
+                <i class="fa fa-angle-down pull-right"></i>
+                <div class="user-mini pull-right">
+                    <span>@ViewBag.NombreUsuario</span>
+                </div>
+            </a>
+            <ul class="dropdown-menu" style="min-width: 10px !important;">
+                <li style="width: 115px;">
+                    <a href="/Account/Manage">
+                        <i class="fa fa-cog"></i>
+                        <span style="float: right;" class="hidden-sm text">Cuenta</span>
+                    </a>
+                </li>
+                <li style="width: 115px;">
+                    <a href="/Admin/CerrarSesion">
+                        <i class="fa fa-power-off"></i>
+                        <span style="float: right;" class="hidden-sm text">Salir</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
     <text>
-        ¡Hola, @Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Administrar" })!
-        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
-            @Html.AntiForgeryToken()
-            <a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a>
-        }
+
+
+        @*¡Hola, @Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Administrar" })!
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        Hola UCRE
+                    </li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a></li>
+                </ul>
+            }*@
     </text>
-} else {
-    <ul>
-        <li>@Html.ActionLink("Registrarse", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        @*<li>@Html.ActionLink("Registrarse", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            <li>@Html.ActionLink("Iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
     </ul>
 }

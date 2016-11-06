@@ -246,6 +246,9 @@
     <Compile Include="Models\DAL\Asignatura.cs">
       <DependentUpon>ModelUcre.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DAL\Curso.cs">
+      <DependentUpon>ModelUcre.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DAL\DetalleAsignatura.cs">
       <DependentUpon>ModelUcre.tt</DependentUpon>
     </Compile>
@@ -271,6 +274,12 @@
       <DependentUpon>ModelUcre.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DAL\Profesor.cs">
+      <DependentUpon>ModelUcre.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DAL\Recurso.cs">
+      <DependentUpon>ModelUcre.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DAL\TipoRecurso.cs">
       <DependentUpon>ModelUcre.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -421,9 +430,11 @@
     <Content Include="Content\DataTables-1.10.12\media\images\sort_both.png" />
     <Content Include="Content\DataTables-1.10.12\media\images\sort_desc.png" />
     <Content Include="Content\DataTables-1.10.12\media\images\sort_desc_disabled.png" />
+    <Content Include="Content\estilosGlobales.css" />
     <Content Include="Content\fonts\css\font-awesome.css" />
     <Content Include="Content\fonts\css\font-awesome.min.css" />
     <Content Include="Content\fonts\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\logoUcre.jpg" />
     <Content Include="Content\Menu\style.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -548,6 +559,7 @@
       <DependentUpon>ModelUcre.edmx</DependentUpon>
       <LastGenOutput>ModelUcre.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\UcrePublish.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\DataTables-1.10.12\extensions\AutoFill\js\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables-1.10.12\extensions\AutoFill\js\autoFill.bootstrap.min.js" />
@@ -642,6 +654,7 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\Menu\devoops.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -691,6 +704,12 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutUcre.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
+    <Content Include="Views\Admin\Cursos.cshtml" />
+    <Content Include="Views\Admin\Asignaturas.cshtml" />
+    <Content Include="Views\Admin\Profesores.cshtml" />
+    <Content Include="Views\Admin\Modulos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

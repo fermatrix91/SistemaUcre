@@ -1,0 +1,24 @@
+﻿body {
+}
+
+.letraTitulos
+{
+    text-align: center !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+}
+
+.letraContenido {
+    font-size: 14px !important;
+    font-weight: normal !important;
+}
+
+.fondoNaranga {
+    background-color: #ff9900 !important;
+    color: white !important;
+}
+
+.fondoNaranga > a{
+    background-color: #ff9900 !important;
+    color: white !important;
+}

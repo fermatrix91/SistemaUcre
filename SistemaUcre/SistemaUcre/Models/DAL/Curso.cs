@@ -12,19 +12,17 @@ namespace SistemaUcre.Models.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Modulo
+    public partial class Curso
     {
-        public Modulo()
+        public Curso()
         {
-            this.Recurso = new HashSet<Recurso>();
+            this.Asignatura = new HashSet<Asignatura>();
         }
     
-        public int IdModulo { get; set; }
-        public int IdAsignatura { get; set; }
+        public int IdCurso { get; set; }
         public string Nombre { get; set; }
         public bool Estado { get; set; }
     
-        public virtual Asignatura Asignatura { get; set; }
-        public virtual ICollection<Recurso> Recurso { get; set; }
+        public virtual ICollection<Asignatura> Asignatura { get; set; }
     }
 }

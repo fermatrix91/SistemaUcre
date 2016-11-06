@@ -15,8 +15,8 @@ namespace SistemaUcre.Models.DAL
     public partial class DetalleAsignatura
     {
         public int IdDetalleAsignatura { get; set; }
-        public int IdEstudiante { get; set; }
         public int IdAsignatura { get; set; }
+        public int IdEstudiante { get; set; }
         public bool Estado { get; set; }
     
         public virtual Asignatura Asignatura { get; set; }

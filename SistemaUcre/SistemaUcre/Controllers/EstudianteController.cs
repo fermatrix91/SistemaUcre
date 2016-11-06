@@ -19,7 +19,7 @@ namespace SistemaUcre.Controllers
         {
             if (User.IsInRole("Estudiante"))
             {
-                Estudiante estudianteActual = modeloUcre.Estudiante.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+                Estudiante estudianteActual = modeloUcre.Estudiante.Where(x => x.Username == User.Identity.Name).FirstOrDefault();
                 ViewBag.NombreUsuario = estudianteActual.Nombre;
                 return View(estudianteActual);
             }

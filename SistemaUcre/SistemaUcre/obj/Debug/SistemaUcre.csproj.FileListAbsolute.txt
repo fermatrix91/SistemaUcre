@@ -245,6 +245,5 @@ C:\Matrix\SistemaUcre\SistemaUcre\SistemaUcre\bin\ko\System.Spatial.resources.dl
 C:\Matrix\SistemaUcre\SistemaUcre\SistemaUcre\bin\ru\System.Spatial.resources.dll
 C:\Matrix\SistemaUcre\SistemaUcre\SistemaUcre\bin\zh-Hans\System.Spatial.resources.dll
 C:\Matrix\SistemaUcre\SistemaUcre\SistemaUcre\bin\zh-Hant\System.Spatial.resources.dll
-C:\Matrix\SistemaUcre\SistemaUcre\SistemaUcre\obj\Debug\SistemaUcre.csprojResolveAssemblyReference.cache
 C:\Matrix\SistemaUcre\SistemaUcre\SistemaUcre\obj\Debug\SistemaUcre.dll
 C:\Matrix\SistemaUcre\SistemaUcre\SistemaUcre\obj\Debug\SistemaUcre.pdb
