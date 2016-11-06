@@ -1,0 +1,147 @@
+﻿@model SistemaUcre.Models.LoginModel
+
+@{
+    ViewBag.Title = "Iniciar sesión";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+@*<hgroup class="title">
+    <h2 style="text-align: center;">@ViewBag.Title.</h2>
+</hgroup>*@
+
+<div class="row" style="margin-top:5%">
+    <div class="col-xs-1 col-sm-1 col-md-2 col-lg-3">
+    </div>
+
+    <div class="col-xs-10 col-sm-10 col-md-8 col-lg-6">
+
+        <div class="controlesLogin">
+
+            <section id="loginForm">
+                @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <img class="img img-responsive" src="~/Content/logoUcre.jpg" style="max-width: 210px; margin: 0 auto">
+                    <br />
+                    <p style="display: block;" class="alineacionElementLogin">
+                        @Html.LabelFor(m => m.UserName, new { style = "color:rgb(52, 113, 76);font-weight: normal;" })
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Ingrese su usuario" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger", style = "margin: 1px !important;" })
+                    </p>
+
+                    <p style="display: block;" class="alineacionElementLogin">
+                        @Html.LabelFor(m => m.Password, new { style = "color:rgb(52, 113, 76);font-weight: normal;" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Ingrese su contraseña" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger", style = "margin: 1px !important;" })
+                    </p>
+
+                    <p class="alineacionElementLogin">
+                        @Html.ActionLink("¿Olvidaste tu Contraseña?", "RecuperaPassword", "Account")
+                    </p>
+
+                    <div class="text-center">
+                        <input type="submit" value="Iniciar sesión" class="btn btn-success btn-sm center-block" />
+                    </div>
+                    @*
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-0">
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                                    @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
+                                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger", style = "margin: 1px !important;" })
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-2 col-xs-0">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-0">
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger", style = "margin: 1px !important;" })
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-2 col-xs-0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <div class="checkbox">
+                                            @Html.CheckBoxFor(m => m.RememberMe)
+                                            @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-lg-6 col-md-6 col-sm-5 col-xs-6">
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                                        @Html.ActionLink("¿Olvidaste tu Contraseña?", "RecuperaPassword", "Account")
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-0">
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<p>
+                                    @Html.ActionLink("Regístrese", "Register") si no tiene ninguna cuenta.
+                                </p>
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-8">
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <input type="submit" value="Iniciar sesión" class="btn btn-default" />
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1">
+                                    </div>
+                                </div>
+                            </div>*@
+                }
+            </section>
+
+            @*<div class="col-md-4">
+                    <section class="social" id="socialLoginForm">
+                        <h2>Usar otro servicio para iniciar sesión.</h2>
+                        @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
+                    </section>
+                </div>*@
+        </div>
+    </div>
+
+    <div class="col-xs-1 col-sm-1 col-md-2 col-lg-3">
+    </div>
+</div>
+
+<style>
+    .alineacionElementLogin {
+        width: 80%;
+        margin-left: 10%;
+    }
+
+    .controlesLogin {
+        max-width: 260px;
+        margin: 0 auto;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

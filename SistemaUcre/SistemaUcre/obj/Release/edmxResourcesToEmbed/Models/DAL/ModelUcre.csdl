@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="UcreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="UcreEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Administrador" EntityType="UcreModel.Administrador" />
+    <EntitySet Name="Asignatura" EntityType="UcreModel.Asignatura" />
+    <EntitySet Name="Curso" EntityType="UcreModel.Curso" />
+    <EntitySet Name="DetalleAsignatura" EntityType="UcreModel.DetalleAsignatura" />
+    <EntitySet Name="Estudiante" EntityType="UcreModel.Estudiante" />
+    <EntitySet Name="Modulo" EntityType="UcreModel.Modulo" />
+    <EntitySet Name="Profesor" EntityType="UcreModel.Profesor" />
+    <EntitySet Name="Recurso" EntityType="UcreModel.Recurso" />
+    <EntitySet Name="TipoRecurso" EntityType="UcreModel.TipoRecurso" />
+    <AssociationSet Name="FK_Asignatura_Curso" Association="UcreModel.FK_Asignatura_Curso">
+      <End Role="Curso" EntitySet="Curso" />
+      <End Role="Asignatura" EntitySet="Asignatura" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Asignatura_Profesor" Association="UcreModel.FK_Asignatura_Profesor">
+      <End Role="Profesor" EntitySet="Profesor" />
+      <End Role="Asignatura" EntitySet="Asignatura" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetalleAsignatura_Asignatura" Association="UcreModel.FK_DetalleAsignatura_Asignatura">
+      <End Role="Asignatura" EntitySet="Asignatura" />
+      <End Role="DetalleAsignatura" EntitySet="DetalleAsignatura" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Modulo_Asignatura" Association="UcreModel.FK_Modulo_Asignatura">
+      <End Role="Asignatura" EntitySet="Asignatura" />
+      <End Role="Modulo" EntitySet="Modulo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetalleAsignatura_Estudiante" Association="UcreModel.FK_DetalleAsignatura_Estudiante">
+      <End Role="Estudiante" EntitySet="Estudiante" />
+      <End Role="DetalleAsignatura" EntitySet="DetalleAsignatura" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Recurso_Modulo" Association="UcreModel.FK_Recurso_Modulo">
+      <End Role="Modulo" EntitySet="Modulo" />
+      <End Role="Recurso" EntitySet="Recurso" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Recurso_TipoRecurso" Association="UcreModel.FK_Recurso_TipoRecurso">
+      <End Role="TipoRecurso" EntitySet="TipoRecurso" />
+      <End Role="Recurso" EntitySet="Recurso" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Administrador">
+    <Key>
+      <PropertyRef Name="IdAdministrador" />
+    </Key>
+    <Property Name="IdAdministrador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Correo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Asignatura">
+    <Key>
+      <PropertyRef Name="IdAsignatura" />
+    </Key>
+    <Property Name="IdAsignatura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdProfesor" Type="Int32" Nullable="false" />
+    <Property Name="IdCurso" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Curso" Relationship="UcreModel.FK_Asignatura_Curso" FromRole="Asignatura" ToRole="Curso" />
+    <NavigationProperty Name="Profesor" Relationship="UcreModel.FK_Asignatura_Profesor" FromRole="Asignatura" ToRole="Profesor" />
+    <NavigationProperty Name="DetalleAsignatura" Relationship="UcreModel.FK_DetalleAsignatura_Asignatura" FromRole="Asignatura" ToRole="DetalleAsignatura" />
+    <NavigationProperty Name="Modulo" Relationship="UcreModel.FK_Modulo_Asignatura" FromRole="Asignatura" ToRole="Modulo" />
+  </EntityType>
+  <EntityType Name="Curso">
+    <Key>
+      <PropertyRef Name="IdCurso" />
+    </Key>
+    <Property Name="IdCurso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Asignatura" Relationship="UcreModel.FK_Asignatura_Curso" FromRole="Curso" ToRole="Asignatura" />
+  </EntityType>
+  <EntityType Name="DetalleAsignatura">
+    <Key>
+      <PropertyRef Name="IdDetalleAsignatura" />
+    </Key>
+    <Property Name="IdDetalleAsignatura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdAsignatura" Type="Int32" Nullable="false" />
+    <Property Name="IdEstudiante" Type="Int32" Nullable="false" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Asignatura" Relationship="UcreModel.FK_DetalleAsignatura_Asignatura" FromRole="DetalleAsignatura" ToRole="Asignatura" />
+    <NavigationProperty Name="Estudiante" Relationship="UcreModel.FK_DetalleAsignatura_Estudiante" FromRole="DetalleAsignatura" ToRole="Estudiante" />
+  </EntityType>
+  <EntityType Name="Estudiante">
+    <Key>
+      <PropertyRef Name="IdEstudiante" />
+    </Key>
+    <Property Name="IdEstudiante" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Correo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="DetalleAsignatura" Relationship="UcreModel.FK_DetalleAsignatura_Estudiante" FromRole="Estudiante" ToRole="DetalleAsignatura" />
+  </EntityType>
+  <EntityType Name="Modulo">
+    <Key>
+      <PropertyRef Name="IdModulo" />
+    </Key>
+    <Property Name="IdModulo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdAsignatura" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Asignatura" Relationship="UcreModel.FK_Modulo_Asignatura" FromRole="Modulo" ToRole="Asignatura" />
+    <NavigationProperty Name="Recurso" Relationship="UcreModel.FK_Recurso_Modulo" FromRole="Modulo" ToRole="Recurso" />
+  </EntityType>
+  <EntityType Name="Profesor">
+    <Key>
+      <PropertyRef Name="IdProfesor" />
+    </Key>
+    <Property Name="IdProfesor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Correo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Asignatura" Relationship="UcreModel.FK_Asignatura_Profesor" FromRole="Profesor" ToRole="Asignatura" />
+  </EntityType>
+  <EntityType Name="Recurso">
+    <Key>
+      <PropertyRef Name="IdRecurso" />
+    </Key>
+    <Property Name="IdRecurso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdTipoRecurso" Type="Int32" Nullable="false" />
+    <Property Name="IdModulo" Type="Int32" Nullable="false" />
+    <Property Name="Urlimagen" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Urlarchivo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Modulo" Relationship="UcreModel.FK_Recurso_Modulo" FromRole="Recurso" ToRole="Modulo" />
+    <NavigationProperty Name="TipoRecurso" Relationship="UcreModel.FK_Recurso_TipoRecurso" FromRole="Recurso" ToRole="TipoRecurso" />
+  </EntityType>
+  <EntityType Name="TipoRecurso">
+    <Key>
+      <PropertyRef Name="IdTipoRecurso" />
+    </Key>
+    <Property Name="IdTipoRecurso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Recurso" Relationship="UcreModel.FK_Recurso_TipoRecurso" FromRole="TipoRecurso" ToRole="Recurso" />
+  </EntityType>
+  <Association Name="FK_Asignatura_Curso">
+    <End Type="UcreModel.Curso" Role="Curso" Multiplicity="1" />
+    <End Type="UcreModel.Asignatura" Role="Asignatura" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Curso">
+        <PropertyRef Name="IdCurso" />
+      </Principal>
+      <Dependent Role="Asignatura">
+        <PropertyRef Name="IdCurso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Asignatura_Profesor">
+    <End Type="UcreModel.Profesor" Role="Profesor" Multiplicity="1" />
+    <End Type="UcreModel.Asignatura" Role="Asignatura" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profesor">
+        <PropertyRef Name="IdProfesor" />
+      </Principal>
+      <Dependent Role="Asignatura">
+        <PropertyRef Name="IdProfesor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetalleAsignatura_Asignatura">
+    <End Type="UcreModel.Asignatura" Role="Asignatura" Multiplicity="1" />
+    <End Type="UcreModel.DetalleAsignatura" Role="DetalleAsignatura" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Asignatura">
+        <PropertyRef Name="IdAsignatura" />
+      </Principal>
+      <Dependent Role="DetalleAsignatura">
+        <PropertyRef Name="IdAsignatura" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Modulo_Asignatura">
+    <End Type="UcreModel.Asignatura" Role="Asignatura" Multiplicity="1" />
+    <End Type="UcreModel.Modulo" Role="Modulo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Asignatura">
+        <PropertyRef Name="IdAsignatura" />
+      </Principal>
+      <Dependent Role="Modulo">
+        <PropertyRef Name="IdAsignatura" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetalleAsignatura_Estudiante">
+    <End Type="UcreModel.Estudiante" Role="Estudiante" Multiplicity="1" />
+    <End Type="UcreModel.DetalleAsignatura" Role="DetalleAsignatura" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estudiante">
+        <PropertyRef Name="IdEstudiante" />
+      </Principal>
+      <Dependent Role="DetalleAsignatura">
+        <PropertyRef Name="IdEstudiante" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Recurso_Modulo">
+    <End Type="UcreModel.Modulo" Role="Modulo" Multiplicity="1" />
+    <End Type="UcreModel.Recurso" Role="Recurso" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Modulo">
+        <PropertyRef Name="IdModulo" />
+      </Principal>
+      <Dependent Role="Recurso">
+        <PropertyRef Name="IdModulo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Recurso_TipoRecurso">
+    <End Type="UcreModel.TipoRecurso" Role="TipoRecurso" Multiplicity="1" />
+    <End Type="UcreModel.Recurso" Role="Recurso" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoRecurso">
+        <PropertyRef Name="IdTipoRecurso" />
+      </Principal>
+      <Dependent Role="Recurso">
+        <PropertyRef Name="IdTipoRecurso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

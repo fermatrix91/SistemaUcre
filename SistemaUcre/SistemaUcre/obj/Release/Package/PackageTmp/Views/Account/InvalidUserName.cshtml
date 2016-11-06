@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "InvalidUserName";
+    Layout = "~/Views/Shared/_LayoutEstudiante.cshtml";
+}
+
+
+<div style="margin: 10% auto; width: 30%; height: 70%;  ">
+
+    <img class="img-responsive" src="~/Images/ISM Logo.png">
+    <br />
+    <fieldset>
+        <h4 style="color:rgb(52, 113, 76); ">El usuario ingresado no es válido.</h4>
+
+        <p>
+            @Html.ActionLink("Regresar", "RecuperaPassword")
+        </p>
+
+    </fieldset>
+</div>

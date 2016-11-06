@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e4673b9ab6864e5cad894f1530a0f0b8" Name="Diagram1">
+        <EntityTypeShape EntityType="UcreModel.Administrador" Width="1.5" PointX="7.75" PointY="1.5" />
+        <EntityTypeShape EntityType="UcreModel.Asignatura" Width="1.5" PointX="3" PointY="3.375" />
+        <EntityTypeShape EntityType="UcreModel.Curso" Width="1.5" PointX="0.75" PointY="3.875" />
+        <EntityTypeShape EntityType="UcreModel.DetalleAsignatura" Width="1.5" PointX="5.25" PointY="3.625" />
+        <EntityTypeShape EntityType="UcreModel.Estudiante" Width="1.5" PointX="3" PointY="8.625" />
+        <EntityTypeShape EntityType="UcreModel.Modulo" Width="1.5" PointX="5.25" PointY="6.625" />
+        <EntityTypeShape EntityType="UcreModel.Profesor" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="UcreModel.Recurso" Width="1.5" PointX="7.5" PointY="6.25" />
+        <EntityTypeShape EntityType="UcreModel.TipoRecurso" Width="1.5" PointX="5.25" PointY="9.875" />
+        <AssociationConnector Association="UcreModel.FK_Asignatura_Curso" />
+        <AssociationConnector Association="UcreModel.FK_Asignatura_Profesor" />
+        <AssociationConnector Association="UcreModel.FK_DetalleAsignatura_Asignatura" />
+        <AssociationConnector Association="UcreModel.FK_Modulo_Asignatura" />
+        <AssociationConnector Association="UcreModel.FK_DetalleAsignatura_Estudiante" />
+        <AssociationConnector Association="UcreModel.FK_Recurso_Modulo" />
+        <AssociationConnector Association="UcreModel.FK_Recurso_TipoRecurso" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
