@@ -1,0 +1,309 @@
+﻿@model List<SistemaUcre.Models.DAL.Recurso>
+
+@{
+    ViewBag.Title = "Recursos";
+    Layout = "~/Views/Shared/_LayoutUcre.cshtml";
+}
+
+<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+    <p class="letraTitulos">Recursos del módulo: @ViewBag.NombreModulo</p>
+    <p id="idDeModuloActualP" style="display: none;">@ViewBag.IdDeModulo</p>
+</div>
+
+<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+    @Html.ActionLink("<- Regresar", "Cursos", "Admin", null, new { @Class = "btn btn-default" })
+</div>
+<br />
+
+
+
+<fieldset>
+    <legend class="Subtitulos">
+        Recursos
+    </legend>
+</fieldset>
+
+<div class="col-md-12 col-xs-12 col-lg-12 col-sm-12" id="divMantenimientoRecurso">
+    <button class="btn btn-info" id="btnAgregarRecurso">Agregar</button>
+</div>
+
+<div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+    <hr />
+</div>
+
+@foreach (SistemaUcre.Models.DAL.Recurso item in Model)
+{
+    <div class="row">
+        <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+            <div class="row">
+                <div class="col-md-6 col-xs-12 col-lg-6 col-sm-6">
+
+                    <a href="@item.Urlarchivo">
+                        @if (item.IdTipoRecurso == 1)
+                        {
+                            <img src="@item.Urlimagen" class="img img-responsive" style="max-height:200px; max-width:200px" />
+                        }
+                        else
+                        {
+                            <video width="400" controls>
+                                <source src="@item.Urlarchivo" type="video/mp4">
+                                <source src="@item.Urlarchivo" type="video/ogg">
+                                Your browser does not support HTML5 video.
+                            </video>
+                        }
+                    </a>
+
+                    <div style="text-align: center;">
+                        <a href="@item.Urlarchivo">@item.Descripcion</a>
+                    </div>
+
+                </div>
+                <div class="col-md-6 col-xs-12 col-lg-6 col-sm-6">
+                    <div class="row">
+                        <p style="text-align: justify;" class="preModulo">@item.Descripcion </p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+                            <div class="col-md-4 col-xs-4 col-lg-4 col-sm-4">
+                                @*<button class="btn btn-primary">Editar</button>*@
+                                <a href="#" class="btn btn-primary dialogtriggerEditRecurso" data-id="@item.IdRecurso">Editar</a>
+                            </div>
+                            <div class="col-md-4 col-xs-4 col-lg-4 col-sm-4">
+                                <form action="HabilitarRecurso" method="post">
+                                    <input type="hidden" name="idRecursoActual" value="@item.IdRecurso" />
+                                    <input type="hidden" name="idModuloActual" value="@ViewBag.IdDeModulo" />
+                                    @if (item.Estado == true)
+                                    {
+                                        <input type="hidden" name="estado" value="false" />
+                                        <button class="btn btn-warning">Deshabilitar</button>
+                                    }
+                                    else
+                                    {
+                                        <input type="hidden" name="estado" value="true" />
+                                        <button class="btn btn-success">Habilitar</button>
+                                    }
+                                </form>
+
+                                @*<a href="#" class="btn btn-danger dialogtriggerDeshabilitarRecurso" data-id="@item.IdRecursos">Deshabilitar</a>*@
+                            </div>
+                            <div class="col-md-4 col-xs-4 col-lg-4 col-sm-4">
+                                <form action="EliminaRecurso" method="post">
+                                    <input type="hidden" name="idRecursoActual" value="@item.IdRecurso" />
+                                    <input type="hidden" name="idModuloActual" value="@ViewBag.IdDeModulo" />
+                                    <button class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <hr />
+}
+
+<div id="recursoEditar" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 95%">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Editar recurso</h4>
+            </div>
+
+            @using (Html.BeginForm("EditandoRecurso", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="modal-body" style="width: 98%; margin: 0 auto">
+                    <input type="hidden" name="idModulo" value="@ViewBag.IdDeModulo" />
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                            <label for="imagenActual">Imagen actual: </label>
+                            <br />
+                            <img id="imagenServer" name="imagenActual" class="img img-responsive" style="max-height: 200px; max-width: 200px" src="" />
+                            <br />
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                            <label for="archivoActual">Archivo actual: </label>
+                            <br />
+                            <a id="archivoActual" href="" name="archivoActual" target="_blank"></a>
+                            <br />
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <label for="nombreImagen">Nueva imagen: </label>
+                    <br />
+                    <ul>
+                        <li>Si se deja en blanco se conserva la imagen actual</li>
+                        <li>Si se selecciona una nueva se borra la actual por la nueva seleccionada</li>
+                    </ul>
+                    <input type="file" name="nombreImagen" id="nombreImagenEditar">
+
+                    <label for="nombreDocumento">Nuevo archivo: </label>
+                    <br />
+                    <ul>
+                        <li>Si se deja en blanco se conserva el archivo actual</li>
+                        <li>Si se selecciona uno nuevo se borra el actual por el nuevo seleccionado</li>
+                    </ul>
+                    <input type="file" name="nombreDocumento" id="nombreDocumentoEditar">
+
+                    <hr />
+
+                    <label for="Descripcion">Editar descripción</label>
+                    <textarea style="max-width: 100% !important;" class="form-control textAreaControles" name="descripcion" id="DescripcionEditar" rows="4"></textarea>
+
+                    <label id="erroresRecursoEditar" style="color: red; visibility: visible"></label>
+                    <p></p>
+                </div>
+
+                <input name="moduloCurso" type="hidden" value="@ViewBag.moduloCurso" />
+                <input id="idRecursoEditar" value="" type="hidden" name="idRecurso" />
+
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" name="name" value="Cancelar" data-dismiss="modal" />
+                    <input type="submit" class="btn btn-primary" value="Guardar" id="btnGuardarRecursoEditar" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<div id="recursoAgregar" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 78%">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Agregar recursos</h4>
+            </div>
+
+            @using (Html.BeginForm("GuardarRecurso", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+                <div class="modal-body" style="width: 95%; margin: 0 auto">
+                    <input type="hidden" name="idModulo" value="@ViewBag.IdDeModulo" />
+
+                    <label for="nombreImagen">Imagen</label>
+                    <input type="file" name="nombreImagen" id="nombreImagen">
+
+                    <hr />
+
+                    <label for="nombreDocumento">Documento</label>
+                    <input type="file" name="nombreDocumento" id="nombreDocumento">
+
+                    <hr />
+
+                    <label for="Descripcion">Descripción</label>
+                    <textarea class="form-control textAreaControles" name="descripcion" id="Descripcion" rows="4"></textarea>
+
+                    <label id="erroresRecurso" style="color: red; visibility: visible"></label>
+                    <p></p>
+                </div>
+
+                <input name="moduloCurso" type="hidden" value="@ViewBag.moduloCurso" />
+
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" name="name" value="Cancelar" data-dismiss="modal" />
+                    <input type="submit" class="btn btn-primary" value="Guardar" id="btnGuardarRecurso" />
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/bloquear.js"></script>
+
+@*<style>
+        .modal-backdrop {
+            z-index: -1;
+        }
+    </style>*@
+
+<script>
+    $(document).ready(function () {
+        $('#cuadroCursos').addClass("fondoNaranga");
+        $('#btnAgregarRecurso').click(function () {
+
+            $('#recursoAgregar').modal('show');
+        });
+
+        $('.navEncima').each(function () {
+            $(this).removeClass('active');
+        });
+
+        $('#Recursos').addClass('active');
+
+        $('.dialogtriggerEditRecurso').click(function () {
+
+
+            var idRecurso = $(this).attr('data-id');
+
+            if (!isNaN(idRecurso)) {
+
+                $("#imagenServer").attr("src", "");
+                $("#archivoActual").attr("href", "");
+                $("#archivoActual").text("");
+                $("#DescripcionEditar").val("");
+                $("#idRecursoEditar").val("");
+
+                $.ajax({
+                    type: "GET",
+                    async: true,
+                    cache: false,
+                    url: '/Admin/ParcialEditarRecurso',
+                    context: document.body,
+                    data: { idRecurso: idRecurso },
+                    beforeSend: function (objeto) {
+                        ventanaBloquear2();
+                    },
+                    complete: function () {
+                        $.unblockUI();
+                    },
+                    success: function (result) {
+
+                        $("#imagenServer").attr("src", "" + result.Imagen);
+                        $("#archivoActual").attr("href", "" + result.Archivo);
+                        $("#archivoActual").text("" + result.NombreArchivo);
+                        $("#DescripcionEditar").val("" + result.Descripcion);
+                        $("#idRecursoEditar").val("" + result.IdRecurso);
+
+                        $('#recursoEditar').modal('show');
+                    }
+                });
+            }
+        });
+
+        $('.dialogtriggerDeshabilitarRecurso').click(function () {
+
+            var idRecurso = $(this).attr('data-id');
+
+            if (!isNaN(idRecurso)) {
+
+                $.ajax({
+                    type: "POST",
+                    async: true,
+                    cache: false,
+                    url: '/Admin/DeshabilitarRecurso',
+                    context: document.body,
+                    data: { _idRecurso: idRecurso },
+                    beforeSend: function (objeto) {
+                        ventanaBloquear2();
+                    },
+                    complete: function () {
+                        $.unblockUI();
+                    },
+                    success: function (result) {
+                        $('#3').load('/Admin/MantenimientoRecursos', { moduloCurso: $("#valorModulo").val() });
+                        //$('#recursoEditar').modal('show');
+                        //$('#contenedorEditarRecurso').html(result);
+                    }
+                });
+            }
+        });
+
+    });
+</script>

@@ -530,6 +530,7 @@
     <Content Include="Content\fonts\scss\_stacked.scss" />
     <Content Include="Content\fonts\scss\_variables.scss" />
     <Content Include="Scripts\arrayToTable.js" />
+    <Content Include="Scripts\bloquear.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\DataTables-1.10.12\extensions\AutoFill\Readme.md" />
@@ -710,6 +711,7 @@
     <Content Include="Views\Admin\Asignaturas.cshtml" />
     <Content Include="Views\Admin\Profesores.cshtml" />
     <Content Include="Views\Admin\Modulos.cshtml" />
+    <Content Include="Views\Admin\Recursos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

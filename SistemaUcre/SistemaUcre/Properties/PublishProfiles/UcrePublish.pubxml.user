@@ -163,7 +163,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/02/2016 20:06:48</publishTime>
     </File>
     <File Include="bin/SistemaUcre.dll">
-      <publishTime>11/06/2016 00:28:51</publishTime>
+      <publishTime>11/08/2016 23:49:05</publishTime>
     </File>
     <File Include="bin/System.ComponentModel.DataAnnotations.dll">
       <publishTime>09/26/2012 03:16:08</publishTime>
@@ -862,7 +862,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/02/2016 20:51:49</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>11/04/2016 23:19:59</publishTime>
+      <publishTime>11/08/2016 23:06:12</publishTime>
     </File>
     <File Include="Content/themes/base/images/ui-bg_flat_0_aaaaaa_40x100.png">
       <publishTime>11/02/2016 20:06:38</publishTime>
@@ -1079,6 +1079,9 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     </File>
     <File Include="Scripts/arrayToTable.js">
       <publishTime>11/02/2016 20:57:23</publishTime>
+    </File>
+    <File Include="Scripts/bloquear.js">
+      <publishTime>11/08/2016 22:42:01</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>11/02/2016 20:57:23</publishTime>
@@ -1444,7 +1447,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/02/2016 20:06:17</publishTime>
     </File>
     <File Include="Views/Admin/Asignaturas.cshtml">
-      <publishTime>11/05/2016 23:36:10</publishTime>
+      <publishTime>11/08/2016 21:26:22</publishTime>
     </File>
     <File Include="Views/Admin/Cursos.cshtml">
       <publishTime>11/05/2016 23:01:52</publishTime>
@@ -1453,10 +1456,13 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/05/2016 20:13:00</publishTime>
     </File>
     <File Include="Views/Admin/Modulos.cshtml">
-      <publishTime>11/06/2016 00:16:06</publishTime>
+      <publishTime>11/08/2016 21:43:21</publishTime>
     </File>
     <File Include="Views/Admin/Profesores.cshtml">
       <publishTime>11/05/2016 23:13:41</publishTime>
+    </File>
+    <File Include="Views/Admin/Recursos.cshtml">
+      <publishTime>11/08/2016 23:46:02</publishTime>
     </File>
     <File Include="Views/Estudiante/Index.cshtml">
       <publishTime>11/02/2016 21:10:27</publishTime>
@@ -1498,7 +1504,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/04/2016 23:23:50</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/06/2016 00:28:53</publishTime>
+      <publishTime>11/08/2016 23:49:06</publishTime>
     </File>
   </ItemGroup>
 </Project>

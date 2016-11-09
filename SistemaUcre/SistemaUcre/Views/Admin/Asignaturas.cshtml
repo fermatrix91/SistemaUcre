@@ -10,6 +10,11 @@
     <p id="idDeCursoActualP" style="display: none;">@ViewBag.IdDeCurso</p>
 </div>
 
+<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+    @Html.ActionLink("<- Regresar", "Cursos", "Admin", null, new { @Class = "btn btn-default" })
+</div>
+<br />
+
 <table id="tablaAsignaturas" class="display table table-striped table-responsive" cellspacing="0" width="100%">
     <thead>
         <tr>
